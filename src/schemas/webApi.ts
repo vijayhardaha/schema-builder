@@ -5,19 +5,7 @@ import { buildId, mergeWithType, resolveUrl, validateUrl } from '@/utils';
 /**
  * Options for building a Schema.org WebAPI entity.
  */
-export type WebApiOptions = {
-  rootUrl: string;
-  path: string;
-  operatingSystem?: string;
-  applicationCategory?: string;
-  applicationSubCategory?: string;
-  version?: string;
-  price?: string;
-  downloadUrl?: string;
-  installUrl?: string;
-  requirements?: string;
-  linkSourceCode?: boolean;
-};
+export type WebApiOptions = { rootUrl: string; path: string; price?: number };
 
 /**
  * Builds a Schema.org WebAPI structured data entity with pricing and platform details.

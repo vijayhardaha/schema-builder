@@ -22,14 +22,7 @@ const config = defineConfig({
 
   // ---- Plugins ----
   // Generate declaration files from source and skip colocated tests
-  plugins: [
-    dts({
-      include: ['src/**/*.ts', 'src/**/*.tsx'],
-      exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
-      entryRoot: 'src',
-      compilerOptions: { declaration: true, declarationMap: true },
-    }),
-  ],
+  plugins: [dts({ include: ['src/**/*.ts', 'src/**/*.tsx'], exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'] })],
 
   // ---- Build Output ----
   build: {
@@ -76,9 +69,6 @@ const config = defineConfig({
         },
       },
     },
-
-    // Emit source maps for debugging built output
-    sourcemap: true,
 
     // Keep output readable for inspection and debugging
     minify: false,

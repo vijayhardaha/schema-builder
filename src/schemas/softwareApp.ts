@@ -12,7 +12,7 @@ export type SoftwareAppOptions = {
   applicationCategory?: string;
   applicationSubCategory?: string;
   version?: string;
-  price?: string;
+  price?: number;
   downloadUrl?: string;
   installUrl?: string;
   requirements?: string;

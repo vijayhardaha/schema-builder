@@ -9,7 +9,7 @@ export type WebPageOptions = {
   rootUrl: string;
   path: string;
   type?: 'WebPage' | 'AboutPage' | 'ContactPage';
-  breadcrumbId?: string;
+  breadcrumb?: boolean;
   mainEntityId?: string;
 };
 
@@ -26,6 +26,7 @@ function buildWebPageSchema(options: WebPageOptions, overrides?: Partial<WebPage
   const personId = buildId(rootUrl, 'person');
   const orgId = buildId(rootUrl, 'organization');
   const webSiteID = buildId(rootUrl, 'website');
+  const breadcrumbId = buildId(canonicalUrl, 'breadcrumb');
 
   const schema: WebPage = {
     '@type': options.type || 'WebPage',
@@ -50,8 +51,8 @@ function buildWebPageSchema(options: WebPageOptions, overrides?: Partial<WebPage
     schema.mainEntity = { '@id': options.mainEntityId };
   }
 
-  if (options.breadcrumbId) {
-    schema.breadcrumb = { '@id': options.breadcrumbId };
+  if (options.breadcrumb) {
+    schema.breadcrumb = { '@id': breadcrumbId };
   }
 
   return mergeWithType(
