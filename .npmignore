@@ -1,0 +1,43 @@
+# Source files
+src/
+
+# Development files
+*.test.ts
+*.test.tsx
+vitest.config.ts
+vitest.setup.ts
+
+# Configuration files
+tsconfig.json
+eslint.config.mjs
+prettier.config.mjs
+commitlint.config.mjs
+
+# Build configuration
+vite.config.ts
+
+# Editor and IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Documentation
+*.md
+!LICENSE.md
+
+# Testing
+coverage/
+
+# Temporary files
+*.log
+*.tmp

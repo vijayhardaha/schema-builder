@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/release-it/release-it/master/schema.json",
+  "git": {
+    "requireCleanWorkingDir": true,
+    "commitMessage": "release: v${version}",
+    "tagAnnotation": "v${version}",
+    "tagName": "v${version}"
+  },
+  "npm": { "publish": true, "publishArgs": ["--access public"], "ignoreVersion": true },
+  "github": { "release": true, "releaseName": "v${version}" },
+  "hooks": {
+    "before:init": ["npm run tsc", "npm run lint", "npm run test"],
+    "before:build": "npm run build",
+    "after:bump": "npm run build",
+    "after:release": "echo \"Released v${version} successfully!\""
+  },
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "infile": "CHANGELOG.md",
+      "preset": {
+        "name": "conventionalcommits",
+        "types": [
+          { "type": "feat", "section": "Features" },
+          { "type": "fix", "section": "Bug Fixes" },
+          { "type": "perf", "section": "Performance" },
+          { "type": "refactor", "section": "Refactoring" },
+          { "type": "test", "section": "Testing" },
+          { "type": "build", "section": "Build System" },
+          { "type": "ci", "section": "CI/CD" },
+          { "type": "chore", "section": "Maintenance", "hidden": true }
+        ]
+      }
+    }
+  }
+}
