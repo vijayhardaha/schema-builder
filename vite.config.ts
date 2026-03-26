@@ -57,8 +57,8 @@ export default defineConfig({
         chunkFileNames: '[name].js',
       },
     },
-    // Emit source maps for debugging
-    sourcemap: true,
+    // Emit inline source maps for debugging
+    sourcemap: 'inline',
     // Keep output readable for development
     minify: false,
   },
