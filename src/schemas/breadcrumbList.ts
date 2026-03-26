@@ -1,4 +1,4 @@
-import type { BreadcrumbList } from 'schema-dts';
+import type { BreadcrumbList, ListItem } from 'schema-dts';
 
 import { validateUrl } from '@/utils/validate';
 
@@ -28,12 +28,17 @@ export function breadcrumbSchema(
   const schema: BreadcrumbList = {
     '@type': 'BreadcrumbList',
     '@id': `${canonicalUrl}#breadcrumb`,
-    itemListElement: items.map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: item.name,
-      item: `${rootUrl}/${item.path}`.replace(/\/+$/, '').replace(/\/+/g, '/'),
-    })),
+    itemListElement: items.map<ListItem>((item, index) => {
+      const url = `${rootUrl}/${item.path}`.replace(/\/+$/, '').replace(/\/+/g, '/');
+
+      return {
+        '@type': 'ListItem',
+        '@id': `${url}#listitem`,
+        position: index + 1,
+        name: item.name,
+        item: { '@type': 'Thing', '@id': url, name: item.name },
+      } satisfies ListItem;
+    }),
   };
 
   if (overrides) {
