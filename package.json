@@ -105,5 +105,8 @@
     "react-dom": {
       "optional": true
     }
+  },
+  "overrides": {
+    "undici": "^7.0.0"
   }
 }
