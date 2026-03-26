@@ -5,12 +5,7 @@ import { softwareAppSchema } from './softwareApp';
 describe('softwareAppSchema', () => {
   // it: should create a valid SoftwareApplication schema
   it('should create a valid SoftwareApplication schema', () => {
-    const result = softwareAppSchema({
-      rootUrl: 'https://example.com',
-      name: 'My App',
-      description: 'A great app',
-      path: 'app',
-    });
+    const result = softwareAppSchema({ rootUrl: 'https://example.com', path: 'app' });
     // expect: verifies the returned @type is SoftwareApplication
     expect(result['@type']).toBe('SoftwareApplication');
   });
@@ -18,6 +13,6 @@ describe('softwareAppSchema', () => {
   // it: should throw error for invalid rootUrl
   it('should throw error for invalid rootUrl', () => {
     // expect: throws when rootUrl is empty
-    expect(() => softwareAppSchema({ rootUrl: '', name: 'Test', description: 'Test', path: 'test' })).toThrow();
+    expect(() => softwareAppSchema({ rootUrl: '', path: 'test' })).toThrow();
   });
 });

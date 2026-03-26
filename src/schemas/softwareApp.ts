@@ -7,8 +7,6 @@ import { buildId, mergeWithType, resolveUrl, validateUrl } from '@/utils';
  */
 export type SoftwareAppOptions = {
   rootUrl: string;
-  name: string;
-  description: string;
   path: string;
   operatingSystem?: string;
   applicationCategory?: string;

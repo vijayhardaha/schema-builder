@@ -5,12 +5,7 @@ import { webApiSchema } from './webAPI';
 describe('webApiSchema', () => {
   // it: should create a valid WebAPI schema
   it('should create a valid WebAPI schema', () => {
-    const result = webApiSchema({
-      rootUrl: 'https://example.com',
-      name: 'My App',
-      description: 'A great app',
-      path: 'app',
-    });
+    const result = webApiSchema({ rootUrl: 'https://example.com', path: 'app' });
     // expect: verifies returned @type is WebAPI
     expect(result['@type']).toBe('WebAPI');
   });
@@ -18,6 +13,6 @@ describe('webApiSchema', () => {
   // it: should throw error for invalid rootUrl
   it('should throw error for invalid rootUrl', () => {
     // expect: throws on invalid rootUrl
-    expect(() => webApiSchema({ rootUrl: '', name: 'Test', description: 'Test', path: 'test' })).toThrow();
+    expect(() => webApiSchema({ rootUrl: '', path: 'test' })).toThrow();
   });
 });

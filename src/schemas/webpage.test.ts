@@ -1,16 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { webpageSchema } from './webPage';
+import { webPageSchema } from './webPage';
 
-// describe: Tests for webpageSchema
-describe('webpageSchema', () => {
+// describe: Tests for webPageSchema
+describe('webPageSchema', () => {
   // it: should create a valid WebPage schema
   it('should create a valid WebPage schema', () => {
-    const result = webpageSchema({
-      rootUrl: 'https://example.com',
-      name: 'About',
-      description: 'About page',
-      path: 'about',
-    });
+    const result = webPageSchema({ rootUrl: 'https://example.com', path: 'about' });
     // expect: returned schema has type WebPage
     expect(result['@type']).toBe('WebPage');
   });
@@ -18,6 +13,6 @@ describe('webpageSchema', () => {
   // it: should throw error for invalid rootUrl
   it('should throw error for invalid rootUrl', () => {
     // expect: invalid rootUrl triggers an error
-    expect(() => webpageSchema({ rootUrl: '', name: 'Test', description: 'Test', path: 'test' })).toThrow();
+    expect(() => webPageSchema({ rootUrl: '', path: 'test' })).toThrow();
   });
 });

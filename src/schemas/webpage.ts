@@ -7,8 +7,6 @@ import { buildId, mergeWithType, resolveUrl, validateUrl } from '@/utils';
  */
 export type WebPageOptions = {
   rootUrl: string;
-  name: string;
-  description: string;
   path: string;
   type?: 'WebPage' | 'AboutPage' | 'ContactPage';
   breadcrumbId?: string;
@@ -69,7 +67,7 @@ function buildWebPageSchema(options: WebPageOptions, overrides?: Partial<WebPage
  * @param {Partial<WebPage>} [overrides] - Optional property overrides to merge into the schema.
  * @returns {WebPage} A WebPage schema entity linked to the site, author, and publisher.
  */
-export function webpageSchema(options: WebPageOptions, overrides?: Partial<WebPage>): WebPage {
+export function webPageSchema(options: WebPageOptions, overrides?: Partial<WebPage>): WebPage {
   return buildWebPageSchema(options, overrides);
 }
 
