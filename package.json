@@ -1,6 +1,6 @@
 {
   "name": "@vijayhardaha/schema-builder",
-  "version": "1.0.0-rc.6",
+  "version": "1.0.0",
   "type": "module",
   "description": "Reusable Schema.org structured data utilities, types, and React components",
   "license": "MIT",
