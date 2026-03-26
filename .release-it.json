@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/release-it/release-it/master/schema.json",
+  "$schema": "https://unpkg.com/release-it@19.2.4/schema/release-it.json",
   "git": {
     "requireCleanWorkingDir": true,
     "commitMessage": "release: v${version}",
