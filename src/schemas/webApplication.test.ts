@@ -8,7 +8,7 @@ describe('webAppSchema', () => {
       name: 'My App',
       description: 'A great app',
       path: 'app',
-    }) as Record<string, unknown>;
+    });
     expect(result['@type']).toBe('WebApplication');
   });
 

@@ -8,7 +8,7 @@ describe('softwareSourceCodeSchema', () => {
       name: 'My Code',
       description: 'Source code',
       path: 'code',
-    }) as Record<string, unknown>;
+    });
     expect(result['@type']).toBe('SoftwareSourceCode');
   });
 

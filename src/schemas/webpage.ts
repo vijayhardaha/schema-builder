@@ -1,6 +1,6 @@
 import type { AboutPage, ContactPage, WebPage } from 'schema-dts';
 
-import { buildCanonicalUrl, validateUrl } from '@/utils';
+import { buildId, mergeWithType, resolveUrl, validateUrl } from '@/utils';
 
 /**
  * Options for building a Schema.org WebPage entity with routing and type information.
@@ -15,16 +15,23 @@ export type WebPageOptions = {
   mainEntityId?: string;
 };
 
-function buildWebPageSchema(options: WebPageOptions, overrides?: Record<string, unknown>): WebPage {
+/**
+ * Internal function to build a WebPage schema with common properties.
+ *
+ * @param {WebPageOptions} options - Page metadata including URL, name, and type.
+ * @param {Partial<WebPage>} [overrides] - Optional property overrides.
+ * @returns {WebPage} A WebPage schema entity.
+ */
+function buildWebPageSchema(options: WebPageOptions, overrides?: Partial<WebPage>): WebPage {
   const rootUrl = validateUrl(options.rootUrl);
-  const canonicalUrl = buildCanonicalUrl(rootUrl, options.path);
-  const personId = `${rootUrl}#person`;
-  const orgId = `${rootUrl}#organization`;
-  const webSiteID = `${rootUrl}#website`;
+  const canonicalUrl = resolveUrl(rootUrl, options.path);
+  const personId = buildId(rootUrl, 'person');
+  const orgId = buildId(rootUrl, 'organization');
+  const webSiteID = buildId(rootUrl, 'website');
 
   const schema: WebPage = {
     '@type': options.type || 'WebPage',
-    '@id': `${canonicalUrl}#webpage`,
+    '@id': buildId(canonicalUrl, 'webpage'),
     url: canonicalUrl,
     name: 'Your Page Name',
     description: 'A brief description of this page.',
@@ -49,42 +56,41 @@ function buildWebPageSchema(options: WebPageOptions, overrides?: Record<string, 
     schema.breadcrumb = { '@id': options.breadcrumbId };
   }
 
-  const safeOverrides = overrides || {};
-  return { ...schema, ...safeOverrides };
+  return mergeWithType(
+    schema as unknown as Record<string, unknown>,
+    overrides as Record<string, unknown>
+  ) as unknown as WebPage;
 }
 
 /**
  * Builds a Schema.org WebPage structured data entity for a specific page.
  *
  * @param {WebPageOptions} options - Page metadata including URL, name, and type.
- * @param {Record<string, unknown>} [overrides] - Optional property overrides to merge into the schema.
- * @returns A WebPage schema entity linked to the site, author, and publisher.
+ * @param {Partial<WebPage>} [overrides] - Optional property overrides to merge into the schema.
+ * @returns {WebPage} A WebPage schema entity linked to the site, author, and publisher.
  */
-export function webpageSchema(options: WebPageOptions, overrides?: Record<string, unknown>): WebPage {
-  const schema = buildWebPageSchema(options, overrides);
-  return { ...schema };
+export function webpageSchema(options: WebPageOptions, overrides?: Partial<WebPage>): WebPage {
+  return buildWebPageSchema(options, overrides);
 }
 
 /**
  * Builds a Schema.org AboutPage structured data entity.
  *
  * @param {WebPageOptions} options - Page metadata including URL, name, and description.
- * @param {Record<string, unknown>} [overrides] - Optional property overrides to merge into the schema.
- * @returns An AboutPage schema entity.
+ * @param {Partial<AboutPage>} [overrides] - Optional property overrides to merge into the schema.
+ * @returns {AboutPage} An AboutPage schema entity.
  */
-export function aboutPageSchema(options: WebPageOptions, overrides?: Record<string, unknown>): AboutPage {
-  const schema = buildWebPageSchema({ ...options, type: 'AboutPage' }, overrides) as AboutPage;
-  return { ...schema };
+export function aboutPageSchema(options: WebPageOptions, overrides?: Partial<AboutPage>): AboutPage {
+  return buildWebPageSchema({ ...options, type: 'AboutPage' }, overrides) as AboutPage;
 }
 
 /**
  * Builds a Schema.org ContactPage structured data entity.
  *
  * @param {WebPageOptions} options - Page metadata including URL, name, and description.
- * @param {Record<string, unknown>} [overrides] - Optional property overrides to merge into the schema.
- * @returns A ContactPage schema entity.
+ * @param {Partial<ContactPage>} [overrides] - Optional property overrides to merge into the schema.
+ * @returns {ContactPage} A ContactPage schema entity.
  */
-export function contactPageSchema(options: WebPageOptions, overrides?: Record<string, unknown>): ContactPage {
-  const schema = buildWebPageSchema({ ...options, type: 'ContactPage' }, overrides) as ContactPage;
-  return { ...schema };
+export function contactPageSchema(options: WebPageOptions, overrides?: Partial<ContactPage>): ContactPage {
+  return buildWebPageSchema({ ...options, type: 'ContactPage' }, overrides) as ContactPage;
 }

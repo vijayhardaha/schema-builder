@@ -1,4 +1,6 @@
-import { buildCanonicalUrl, validateUrl } from '@/utils';
+import type { WebApplication } from 'schema-dts';
+
+import { buildId, mergeWithType, resolveUrl, validateUrl } from '@/utils';
 
 /**
  * Options for building a Schema.org WebApplication or related software entity.
@@ -24,18 +26,18 @@ export type WebAppOptions = {
  * Builds a Schema.org WebApplication structured data entity with pricing and platform details.
  *
  * @param {WebAppOptions} options - Application metadata including name, URL, and category.
- * @param {Record<string, unknown>} [overrides] - Optional property overrides to merge into the schema.
- * @returns A WebApplication schema entity with offers and authorship references.
+ * @param {Partial<WebApplication>} [overrides] - Optional property overrides to merge into the schema.
+ * @returns {WebApplication} A WebApplication schema entity with offers and authorship references.
  */
-export function webAppSchema(options: WebAppOptions, overrides?: Record<string, unknown>): Record<string, unknown> {
+export function webAppSchema(options: WebAppOptions, overrides?: Partial<WebApplication>): WebApplication {
   const rootUrl = validateUrl(options.rootUrl);
-  const canonicalUrl = buildCanonicalUrl(rootUrl, options.path);
-  const orgId = `${rootUrl}#organization`;
-  const personId = `${rootUrl}#person`;
+  const canonicalUrl = resolveUrl(rootUrl, options.path);
+  const orgId = buildId(rootUrl, 'organization');
+  const personId = buildId(rootUrl, 'person');
 
   const schema: Record<string, unknown> = {
     '@type': options.type || 'WebApplication',
-    '@id': `${canonicalUrl}#app`,
+    '@id': buildId(canonicalUrl, 'app'),
     name: options.name,
     description: options.description,
     url: canonicalUrl,
@@ -46,7 +48,7 @@ export function webAppSchema(options: WebAppOptions, overrides?: Record<string, 
     author: { '@id': personId },
     creator: { '@id': personId },
     publisher: { '@id': orgId },
-    mainEntityOfPage: { '@id': `${canonicalUrl}#webpage` },
+    mainEntityOfPage: { '@id': buildId(canonicalUrl, 'webpage') },
     offers: {
       '@type': 'Offer',
       price: options.price || '0.00',
@@ -59,11 +61,7 @@ export function webAppSchema(options: WebAppOptions, overrides?: Record<string, 
   if (options.downloadUrl) schema.downloadUrl = options.downloadUrl;
   if (options.installUrl) schema.installUrl = options.installUrl;
   if (options.requirements) schema.softwareRequirements = options.requirements;
-  if (options.linkSource) schema.isBasedOn = `${canonicalUrl}#source`;
+  if (options.linkSource) schema.isBasedOn = buildId(canonicalUrl, 'source');
 
-  if (overrides) {
-    Object.assign(schema, overrides);
-  }
-
-  return { '@context': 'https://schema.org', ...schema };
+  return mergeWithType(schema, overrides as Record<string, unknown>) as unknown as WebApplication;
 }

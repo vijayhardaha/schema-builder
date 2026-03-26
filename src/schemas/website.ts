@@ -1,6 +1,6 @@
 import type { WebSite } from 'schema-dts';
 
-import { validateUrl } from '@/utils/validate';
+import { buildId, mergeWithType, validateUrl } from '@/utils';
 
 /** Options for building a Schema.org WebSite entity with optional main entity reference. */
 export type WebSiteOptions = { rootUrl: string };
@@ -9,17 +9,17 @@ export type WebSiteOptions = { rootUrl: string };
  * Builds a Schema.org WebSite structured data entity for the site root.
  *
  * @param {WebSiteOptions} options - The root URL and optional main entity reference.
- * @param {Record<string, unknown>} [overrides] - Optional property overrides to merge into the schema.
- * @returns A WebSite schema entity with author and language metadata.
+ * @param {Partial<WebSite>} [overrides] - Optional property overrides to merge into the schema.
+ * @returns {WebSite} A WebSite schema entity with author and language metadata.
  */
-export function websiteSchema(options: WebSiteOptions, overrides?: Record<string, unknown>): Record<string, unknown> {
+export function websiteSchema(options: WebSiteOptions, overrides?: Partial<WebSite>): WebSite {
   const rootUrl = validateUrl(options.rootUrl);
-  const personId = `${rootUrl}#person`;
-  const orgId = `${rootUrl}#organization`;
+  const personId = buildId(rootUrl, 'person');
+  const orgId = buildId(rootUrl, 'organization');
 
   const schema: WebSite = {
     '@type': 'WebSite',
-    '@id': `${rootUrl}#website`,
+    '@id': buildId(rootUrl, 'website'),
     url: rootUrl,
     name: 'Your Website Name',
     description: 'A brief description of your website.',
@@ -30,9 +30,8 @@ export function websiteSchema(options: WebSiteOptions, overrides?: Record<string
     sameAs: [],
   };
 
-  if (overrides) {
-    Object.assign(schema, overrides);
-  }
-
-  return { '@context': 'https://schema.org', ...schema };
+  return mergeWithType(
+    schema as unknown as Record<string, unknown>,
+    overrides as Record<string, unknown>
+  ) as unknown as WebSite;
 }

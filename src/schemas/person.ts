@@ -1,7 +1,7 @@
 import type { Person } from 'schema-dts';
 
 import { CREATOR } from '@/constants/creator';
-import { validateUrl } from '@/utils/validate';
+import { buildId, mergeWithType, validateUrl } from '@/utils';
 
 /** Options for building a Schema.org Person entity with linked organization. */
 export type PersonOptions = { rootUrl: string };
@@ -11,11 +11,11 @@ export type PersonOptions = { rootUrl: string };
  *
  * @param {PersonOptions} options - The root URL and optional organization reference.
  * @param {Partial<Person>} [overrides] - Optional property overrides to merge into the schema.
- * @returns A Person schema entity populated with creator profile data.
+ * @returns {Person} A Person schema entity populated with creator profile data.
  */
-export function personSchema(options: PersonOptions, overrides?: Partial<Person>): Record<string, unknown> {
+export function personSchema(options: PersonOptions, overrides?: Partial<Person>): Person {
   const rootUrl = validateUrl(options.rootUrl);
-  const personId = `${rootUrl}#person`;
+  const personId = buildId(rootUrl, 'person');
 
   const schema: Person = {
     '@type': 'Person',
@@ -78,16 +78,17 @@ export function personSchema(options: PersonOptions, overrides?: Partial<Person>
     brand: { '@type': 'Brand', name: CREATOR.name },
   };
 
-  if (overrides) {
-    Object.assign(schema, overrides);
-  }
+  const result = mergeWithType(
+    schema as unknown as Record<string, unknown>,
+    overrides as Record<string, unknown> | undefined
+  ) as unknown as Person;
 
   // Remove undefined fields (important for clean JSON-LD)
-  Object.keys(schema).forEach((key) => {
-    if (schema[key as keyof Person] === undefined) {
-      delete schema[key as keyof Person];
+  Object.keys(result).forEach((key) => {
+    if (result[key as keyof Person] === undefined) {
+      delete result[key as keyof Person];
     }
   });
 
-  return { ...schema };
+  return result;
 }

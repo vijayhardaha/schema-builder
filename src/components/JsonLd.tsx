@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
-import { toGraph } from '@/utils/schemaDts';
-import type { SchemaEntity } from '@/utils/deepMerge';
+import { toGraph } from '@/utils/schema';
+import type { SchemaEntity } from '@/utils/merge';
 
 /**
  * Serializes data to JSON and escapes HTML script-closing tags to prevent XSS injection.

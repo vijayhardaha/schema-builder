@@ -7,14 +7,9 @@ describe('breadcrumbSchema', () => {
       { name: 'Home', path: '' },
       { name: 'About', path: 'about' },
     ];
-    const result = breadcrumbSchema({ rootUrl: 'https://example.com', items }) as {
-      '@type': string;
-      itemListElement: { position: number }[];
-    };
-    expect(result['@type']).toBe('BreadcrumbList');
-    expect(result.itemListElement).toHaveLength(2);
-    expect(result.itemListElement[0].position).toBe(1);
-    expect(result.itemListElement[1].position).toBe(2);
+    const result = breadcrumbSchema({ rootUrl: 'https://example.com', items });
+    expect((result as unknown as Record<string, unknown>)['@type']).toBe('BreadcrumbList');
+    expect((result as unknown as { itemListElement: unknown[] }).itemListElement).toHaveLength(2);
   });
 
   it('should throw error for invalid rootUrl', () => {

@@ -1,6 +1,6 @@
 import type { SoftwareSourceCode } from 'schema-dts';
 
-import { buildCanonicalUrl, validateUrl } from '@/utils';
+import { buildId, mergeWithType, resolveUrl, validateUrl } from '@/utils';
 
 /**
  * Options for building a Schema.org SoftwareSourceCode entity with repository metadata.
@@ -22,21 +22,21 @@ export type SoftwareSourceOptions = {
  * Builds a Schema.org SoftwareSourceCode structured data entity for open-source projects.
  *
  * @param {SoftwareSourceOptions} options - Source code metadata including language, version, and repository URL.
- * @param {Record<string, unknown>} [overrides] - Optional property overrides to merge into the schema.
- * @returns A SoftwareSourceCode schema entity with authorship and licensing details.
+ * @param {Partial<SoftwareSourceCode>} [overrides] - Optional property overrides to merge into the schema.
+ * @returns {SoftwareSourceCode} A SoftwareSourceCode schema entity with authorship and licensing details.
  */
 export function softwareSourceCodeSchema(
   options: SoftwareSourceOptions,
-  overrides?: Record<string, unknown>
-): Record<string, unknown> {
+  overrides?: Partial<SoftwareSourceCode>
+): SoftwareSourceCode {
   const rootUrl = validateUrl(options.rootUrl);
-  const canonicalUrl = buildCanonicalUrl(rootUrl, options.path);
-  const personId = `${rootUrl}#person`;
-  const orgId = `${rootUrl}#organization`;
+  const canonicalUrl = resolveUrl(rootUrl, options.path);
+  const personId = buildId(rootUrl, 'person');
+  const orgId = buildId(rootUrl, 'organization');
 
   const schema: SoftwareSourceCode = {
     '@type': 'SoftwareSourceCode',
-    '@id': `${canonicalUrl}#sourcecode`,
+    '@id': buildId(canonicalUrl, 'sourcecode'),
     name: options.name,
     description: options.description,
     url: options.installUrl || canonicalUrl,
@@ -50,12 +50,11 @@ export function softwareSourceCodeSchema(
     publisher: { '@id': orgId },
     maintainer: { '@id': personId },
     copyrightHolder: { '@id': orgId },
-    mainEntityOfPage: { '@id': `${canonicalUrl}#webpage` },
+    mainEntityOfPage: { '@id': buildId(canonicalUrl, 'webpage') },
   };
 
-  if (overrides) {
-    Object.assign(schema, overrides);
-  }
-
-  return { '@context': 'https://schema.org', ...schema };
+  return mergeWithType(
+    schema as unknown as Record<string, unknown>,
+    overrides as Record<string, unknown>
+  ) as unknown as SoftwareSourceCode;
 }
