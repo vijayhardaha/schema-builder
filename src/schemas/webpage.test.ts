@@ -8,7 +8,7 @@ describe('webpageSchema', () => {
       name: 'About',
       description: 'About page',
       path: 'about',
-    }) as Record<string, unknown>;
+    });
     expect(result['@type']).toBe('WebPage');
     expect(result.name).toBe('About');
   });

@@ -23,16 +23,18 @@ export function organizationSchema(
   const schema: Organization = {
     '@type': 'Organization',
     '@id': orgId,
-    name: (overrides?.name as string) || rootUrl,
+    name: 'Your Name or Organization',
+    description: 'A brief description of your organization.',
     url: rootUrl,
-    logo: { '@type': 'ImageObject', url: `${rootUrl}/logo-for-schema.png`, width: '512', height: '512' },
+    logo: { '@type': 'ImageObject', url: `${rootUrl}/logo.png`, width: '512', height: '512' },
     founder: { '@id': personId },
     foundingDate: new Date().getFullYear().toString(),
+    sameAs: [],
   };
 
   if (overrides) {
     Object.assign(schema, overrides);
   }
 
-  return { '@context': 'https://schema.org', ...schema };
+  return { ...schema };
 }

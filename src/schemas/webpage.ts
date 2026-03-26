@@ -26,12 +26,19 @@ function buildWebPageSchema(options: WebPageOptions, overrides?: Record<string, 
     '@type': options.type || 'WebPage',
     '@id': `${canonicalUrl}#webpage`,
     url: canonicalUrl,
-    name: options.name,
-    description: options.description,
-    isPartOf: { '@id': webSiteID },
+    name: 'Your Page Name',
+    description: 'A brief description of this page.',
     inLanguage: 'en',
+
+    isPartOf: { '@id': webSiteID },
     publisher: { '@id': orgId },
     author: { '@id': personId },
+    copyrightHolder: { '@id': personId },
+
+    copyrightYear: new Date().getFullYear(),
+    dateModified: new Date().toISOString(),
+
+    image: { '@type': 'ImageObject', url: `${canonicalUrl}/preview.png`, width: '1200', height: '630' },
   };
 
   if (options.mainEntityId) {
@@ -42,11 +49,8 @@ function buildWebPageSchema(options: WebPageOptions, overrides?: Record<string, 
     schema.breadcrumb = { '@id': options.breadcrumbId };
   }
 
-  if (overrides) {
-    Object.assign(schema, overrides);
-  }
-
-  return schema;
+  const safeOverrides = overrides || {};
+  return { ...schema, ...safeOverrides };
 }
 
 /**
@@ -56,9 +60,9 @@ function buildWebPageSchema(options: WebPageOptions, overrides?: Record<string, 
  * @param {Record<string, unknown>} [overrides] - Optional property overrides to merge into the schema.
  * @returns A WebPage schema entity linked to the site, author, and publisher.
  */
-export function webpageSchema(options: WebPageOptions, overrides?: Record<string, unknown>): Record<string, unknown> {
+export function webpageSchema(options: WebPageOptions, overrides?: Record<string, unknown>): WebPage {
   const schema = buildWebPageSchema(options, overrides);
-  return { '@context': 'https://schema.org', ...schema };
+  return { ...schema };
 }
 
 /**
@@ -68,9 +72,9 @@ export function webpageSchema(options: WebPageOptions, overrides?: Record<string
  * @param {Record<string, unknown>} [overrides] - Optional property overrides to merge into the schema.
  * @returns An AboutPage schema entity.
  */
-export function aboutPageSchema(options: WebPageOptions, overrides?: Record<string, unknown>): Record<string, unknown> {
+export function aboutPageSchema(options: WebPageOptions, overrides?: Record<string, unknown>): AboutPage {
   const schema = buildWebPageSchema({ ...options, type: 'AboutPage' }, overrides) as AboutPage;
-  return { '@context': 'https://schema.org', ...schema };
+  return { ...schema };
 }
 
 /**
@@ -80,10 +84,7 @@ export function aboutPageSchema(options: WebPageOptions, overrides?: Record<stri
  * @param {Record<string, unknown>} [overrides] - Optional property overrides to merge into the schema.
  * @returns A ContactPage schema entity.
  */
-export function contactPageSchema(
-  options: WebPageOptions,
-  overrides?: Record<string, unknown>
-): Record<string, unknown> {
+export function contactPageSchema(options: WebPageOptions, overrides?: Record<string, unknown>): ContactPage {
   const schema = buildWebPageSchema({ ...options, type: 'ContactPage' }, overrides) as ContactPage;
-  return { '@context': 'https://schema.org', ...schema };
+  return { ...schema };
 }
