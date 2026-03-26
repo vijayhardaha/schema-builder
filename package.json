@@ -30,15 +30,15 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "require": "./dist/index.cjs"
     },
     "./react": {
-      "types": "./dist/react/index.d.ts",
-      "import": "./dist/react/index.js",
-      "require": "./dist/react/index.js"
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js",
+      "require": "./dist/react.cjs"
     }
   },
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -47,8 +47,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.build.json && vite build",
-    "postbuild": "node -e \"const fs=require('fs');['constants','schemas','utils','components'].forEach(d=>{const p='dist/'+d;if(fs.existsSync(p))fs.rmSync(p,{recursive:true})});['schema.js','schema.cjs'].forEach(f=>{const p='dist/'+f;if(fs.existsSync(p))fs.unlinkSync(p)});\"",
+    "build": "npm run tsc && vite build && vite build --mode react",
     "preview": "vite preview",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx,.mjs,.cjs .",
     "lint:fix": "eslint --fix --ext .ts,.tsx,.js,.jsx,.mjs,.cjs .",

@@ -10,39 +10,29 @@
 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig({
+// ---- Module Resolution ----
+export default defineConfig(({ mode }) => ({
   // ---- Plugins ----
   plugins: [
     // Generate .d.ts declaration files from source, excluding tests
-    dts({
-      include: ['src/**/*.ts', 'src/**/*.tsx'],
-      exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
-      rollupTypes: false,
-    }),
+    dts({ include: ['src/**/*.ts', 'src/**/*.tsx'], exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'] }),
   ],
-
-  // ---- Module Resolution ----
-  // Map @/* imports to the src directory
   resolve: { alias: { '@': path.resolve(__dirname, './src') } },
-
-  // ---- Build Options ----
   build: {
-    // Clean the output directory before building
-    emptyOutDir: true,
-    // Output to the dist directory
     outDir: 'dist',
+    // Clean the output directory only on first build
+    emptyOutDir: mode !== 'react',
     lib: {
-      // Define dual entry points for core and React exports
-      entry: { index: path.resolve(__dirname, 'src/index.ts'), react: path.resolve(__dirname, 'src/react.tsx') },
+      // Build one entry at a time based on mode
+      entry: path.resolve(__dirname, mode === 'react' ? 'src/react.tsx' : 'src/index.ts'),
       // Output ESM and CJS formats with .cjs extension for CommonJS
-      formats: ['es', 'cjs'],
-      // Use .cjs extension for CommonJS format
+      formats: ['es', 'cjs'] as const,
+      // Write flat files such as index.js, index.cjs, react.js, react.cjs
       fileName: (format, entryName) => `${entryName}.${format === 'cjs' ? 'cjs' : 'js'}`,
     },
     rollupOptions: {
@@ -51,15 +41,11 @@ export default defineConfig({
       output: {
         // Map externals to global variable names for UMD fallback
         globals: { react: 'React', 'react-dom': 'ReactDOM', 'react/jsx-runtime': 'jsx-runtime' },
-        // Bundle all modules into a single chunk per entry
-        preserveModules: false,
-        assetFileNames: 'assets/[name][extname]',
-        chunkFileNames: '[name].js',
       },
     },
     // Emit inline source maps for debugging
-    sourcemap: 'inline',
+    sourcemap: true,
     // Keep output readable for development
     minify: false,
   },
-});
+}));
