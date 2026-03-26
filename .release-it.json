@@ -6,7 +6,7 @@
     "tagAnnotation": "v${version}",
     "tagName": "v${version}"
   },
-  "npm": { "publish": true, "publishArgs": ["--access public"], "ignoreVersion": true },
+  "npm": { "publish": true, "publishArgs": ["--access=public"], "ignoreVersion": true },
   "github": { "release": true, "releaseName": "v${version}" },
   "hooks": {
     "before:init": ["npm run tsc", "npm run lint", "npm run test"],
