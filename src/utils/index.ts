@@ -1,5 +1,4 @@
-export type { SchemaEntity } from './deepMerge';
-export { deepMerge, mergeWithType } from './deepMerge';
-export { validateUrl } from './validate';
-export { toGraph } from './schemaDts';
-export { buildCanonicalUrl } from './canonicalUrl';
+export type { SchemaEntity } from './merge';
+export { deepMerge, mergeWithType } from './merge';
+export { buildId, toGraph } from './schema';
+export { resolveUrl, cleanUrl, validateUrl } from './url';
