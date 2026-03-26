@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-`@vijayhardaha/schema` is a reusable npm package that provides Schema.org structured data utilities, types, and React components.
+`@vijayhardaha/schema-builder` is a reusable npm package that provides Schema.org structured data utilities, types, and React components.
 
 ## Tech Stack
 
@@ -164,7 +164,7 @@ The package provides the following schema types:
 Renders a JSON-LD script tag with XSS protection.
 
 ```tsx
-import JsonLd from "@vijayhardaha/schema/react";
+import JsonLd from "@vijayhardaha/schema-builder/react";
 
 <JsonLd data={[personSchema(options), websiteSchema(options)]} />;
 ```

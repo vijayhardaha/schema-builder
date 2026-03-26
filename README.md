@@ -1,9 +1,9 @@
-# @vijayhardaha/schema
+# @vijayhardaha/schema-builder
 
 Reusable Schema.org structured data utilities, types, and React components with full TypeScript support.
 
-[![npm version](https://img.shields.io/npm/v/@vijayhardaha/schema.svg)](https://www.npmjs.com/package/@vijayhardaha/schema)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://img.shields.io/npm/v/@vijayhardaha/schema-builder.svg)](https://www.npmjs.com/package/@vijayhardaha/schema-builder)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
 
@@ -16,7 +16,7 @@ Reusable Schema.org structured data utilities, types, and React components with 
 ## Installation
 
 ```bash
-npm install @vijayhardaha/schema
+npm install @vijayhardaha/schema-builder
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ npm install @vijayhardaha/schema
 ### JavaScript/TypeScript
 
 ```typescript
-import { personSchema, websiteSchema, toGraph } from "@vijayhardaha/schema";
+import { personSchema, websiteSchema, toGraph } from "@vijayhardaha/schema-builder";
 
 const person = personSchema({ rootUrl: "https://example.com" });
 const website = websiteSchema({ rootUrl: "https://example.com" });
@@ -36,8 +36,8 @@ const graph = toGraph(person, website);
 ### React
 
 ```tsx
-import JsonLd from "@vijayhardaha/schema/react";
-import { personSchema, websiteSchema } from "@vijayhardaha/schema";
+import JsonLd from "@vijayhardaha/schema-builder/react";
+import { personSchema, websiteSchema } from "@vijayhardaha/schema-builder";
 
 export default function MyPage() {
   return (

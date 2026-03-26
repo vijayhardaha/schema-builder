@@ -1,6 +1,6 @@
 # Copilot Instructions
 
-You are an AI assistant helping with the `@vijayhardaha/schema` npm package. This package provides Schema.org structured data utilities with type safety using schema-dts.
+You are an AI assistant helping with the `@vijayhardaha/schema-builder` npm package. This package provides Schema.org structured data utilities with type safety using schema-dts.
 
 ## What this package does
 
