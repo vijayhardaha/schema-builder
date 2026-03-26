@@ -33,13 +33,17 @@ export default defineConfig({
 
   // ---- Build Options ----
   build: {
+    // Clean the output directory before building
+    emptyOutDir: true,
+    // Output to the dist directory
+    outDir: 'dist',
     lib: {
       // Define dual entry points for core and React exports
       entry: { index: path.resolve(__dirname, 'src/index.ts'), react: path.resolve(__dirname, 'src/react.tsx') },
-      // Output ESM format only
-      formats: ['es'],
-      // Use entry name directly as output filename
-      fileName: (_format: string, entryName: string) => `${entryName}.js`,
+      // Output ESM and CJS formats with .cjs extension for CommonJS
+      formats: ['es', 'cjs'],
+      // Use .cjs extension for CommonJS format
+      fileName: (format, entryName) => `${entryName}.${format === 'cjs' ? 'cjs' : 'js'}`,
     },
     rollupOptions: {
       // Exclude React from the bundle; consumers provide their own
@@ -51,7 +55,6 @@ export default defineConfig({
         preserveModules: false,
         assetFileNames: 'assets/[name][extname]',
         chunkFileNames: '[name].js',
-        entryFileNames: '[name].js',
       },
     },
     // Emit source maps for debugging
