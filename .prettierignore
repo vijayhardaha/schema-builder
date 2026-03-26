@@ -1,0 +1,82 @@
+# =======================================================================
+# Prettier Ignore
+# =======================================================================
+# Purpose: Tell Prettier which files to skip to avoid formatting
+#          generated or binary files (keeps diffs small and fast).
+# Docs: https://prettier.io/docs/ignore
+# =======================================================================
+
+# ----------------------------------------------------------------------
+# Project & Build Artifacts
+# ----------------------------------------------------------------------
+# We never want to format external dependencies or compiled code
+.next/
+.idea/
+.husky/
+.vercel/
+.git/
+node_modules/
+build/
+dist/
+out/
+
+# ----------------------------------------------------------------------
+# Package Manager Lockfiles
+# ----------------------------------------------------------------------
+# Formatting these can cause massive, merge-breaking diffs.
+# Also covers Yarn and PNPM
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lock
+
+# ----------------------------------------------------------------------
+# Static Assets & Public Data
+# ----------------------------------------------------------------------
+# Binary files (images, fonts) cannot be formatted.
+# Using trailing slash '/' ensures we only ignore directories
+# named 'public'
+public/
+vendor/
+assets/
+static/
+
+# ----------------------------------------------------------------------
+# System & Version Control
+# ----------------------------------------------------------------------
+.git/
+.hg/
+.svn/
+
+# ----------------------------------------------------------------------
+# Markdown & Docs (Optional)
+# ----------------------------------------------------------------------
+# Prettier wraps markdown aggressively. You might want to disable this
+# if you prefer manual line breaks in documentation.
+# README.md
+# CHANGELOG.md
+
+# ----------------------------------------------------------------------
+# Minified & Generated Files
+# ----------------------------------------------------------------------
+# Never format minified code; it breaks the "minified" purpose
+*.min.js
+*.min.css
+*.min.map
+
+# ----------------------------------------------------------------------
+# Environment & Config
+# ----------------------------------------------------------------------
+# .env files often rely on specific spacing or comments that vary by
+# parser. .editorconfig defines the rules, prettier shouldn't fight it.
+.env
+.env.*
+.editorconfig
+
+# ----------------------------------------------------------------------
+# Logs & Cache
+# ----------------------------------------------------------------------
+# Logs are generated text files, no need to format
+*.log
+npm-debug.log*
+.cache
