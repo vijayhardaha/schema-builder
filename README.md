@@ -5,8 +5,6 @@ Reusable Schema.org structured data utilities, types, and React components with 
 [![npm version](https://img.shields.io/npm/v/@vijayhardaha/schema.svg)](https://www.npmjs.com/package/@vijayhardaha/schema)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Note:** This package is primarily for the author's personal use. However, you're free to use or fork it for your own projects. The `personSchema` function includes the author's personal details by default - make sure to override these with your own information when using this package.
-
 ## Features
 
 - Full TypeScript support with strict mode
@@ -18,25 +16,7 @@ Reusable Schema.org structured data utilities, types, and React components with 
 ## Installation
 
 ```bash
-bun add @vijayhardaha/schema
-```
-
-or
-
-```bash
 npm install @vijayhardaha/schema
-```
-
-or
-
-```bash
-pnpm add @vijayhardaha/schema
-```
-
-or
-
-```bash
-yarn add @vijayhardaha/schema
 ```
 
 ## Usage
@@ -50,7 +30,7 @@ const person = personSchema({ rootUrl: "https://example.com" });
 const website = websiteSchema({ rootUrl: "https://example.com" });
 
 // Use toGraph() to wrap multiple entities
-const graph = toGraph([person, website]);
+const graph = toGraph(person, website);
 ```
 
 ### React
@@ -75,28 +55,29 @@ export default function MyPage() {
 
 ### Schema Functions
 
-| Function                    | Type                | Description                           |
-| --------------------------- | ------------------- | ------------------------------------- |
-| `personSchema`              | Person              | Schema.org Person entity              |
-| `organizationSchema`        | Organization        | Schema.org Organization entity        |
-| `websiteSchema`             | WebSite             | Schema.org WebSite entity             |
-| `webpageSchema`             | WebPage             | Schema.org WebPage entity             |
-| `aboutPageSchema`           | AboutPage           | Schema.org AboutPage entity           |
-| `contactPageSchema`         | ContactPage         | Schema.org ContactPage entity         |
-| `webAppSchema`              | WebApplication      | Schema.org WebApplication entity      |
-| `webApiSchema`              | WebAPI              | Schema.org WebAPI entity              |
-| `softwareApplicationSchema` | SoftwareApplication | Schema.org SoftwareApplication entity |
-| `softwareSourceCodeSchema`  | SoftwareSourceCode  | Schema.org SoftwareSourceCode entity  |
-| `breadcrumbSchema`          | BreadcrumbList      | Schema.org BreadcrumbList entity      |
+| Function             | Schema.org Type     | Description                        |
+| -------------------- | ------------------- | ---------------------------------- |
+| `personSchema`       | Person              | Person entity with creator profile |
+| `organizationSchema` | Organization        | Organization linked to creator     |
+| `websiteSchema`      | WebSite             | Website with search action         |
+| `webpageSchema`      | WebPage             | General web page                   |
+| `aboutPageSchema`    | AboutPage           | About page                         |
+| `contactPageSchema`  | ContactPage         | Contact page                       |
+| `webApiSchema`       | WebAPI              | WebAPI with pricing and platform   |
+| `softwareAppSchema`  | SoftwareApplication | Software application with pricing  |
+| `breadcrumbSchema`   | BreadcrumbList      | Navigation breadcrumb list         |
 
 ### Utilities
 
-| Function                        | Description                                     |
-| ------------------------------- | ----------------------------------------------- |
-| `validateUrl(url)`              | Validates HTTP(S) URLs, throws on invalid input |
-| `deepMerge(target, source)`     | Recursively merges two objects                  |
-| `mergeWithType(target, source)` | Merges objects while preserving `@type`         |
-| `toGraph(entities)`             | Wraps entities in `@graph` structure            |
+| Function                           | Description                                        |
+| ---------------------------------- | -------------------------------------------------- |
+| `validateUrl(url)`                 | Validates HTTP(S) URLs, throws on invalid input    |
+| `resolveUrl(root, path)`           | Resolves URL with path                             |
+| `cleanUrl(url, trailingSlash)`     | Cleans URL (removes trailing slash, query strings) |
+| `deepMerge(target, overrides)`     | Recursively merges two objects                     |
+| `mergeWithType(target, overrides)` | Merges objects while preserving `@type`            |
+| `toGraph(...entities)`             | Wraps entities in `@graph` structure               |
+| `buildId(url, fragment)`           | Builds schema ID from URL and fragment             |
 
 ### React Components
 
@@ -106,7 +87,7 @@ export default function MyPage() {
 
 ## License
 
-[MIT](LICENSE) - Copyright (c) 2025 Vijay Hardaha
+[MIT](LICENSE) - Copyright (c) Vijay Hardaha
 
 ## Author
 

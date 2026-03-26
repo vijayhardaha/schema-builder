@@ -16,54 +16,41 @@
 | Formatting      | Prettier                 |
 | Schema Types    | schema-dts               |
 | React           | React 19                 |
+| Release         | release-it               |
 
 ## Project Structure
 
 ```
-schema/
-├── src/
-│   ├── components/
-│   │   └── JsonLd.tsx          # React component for JSON-LD script tags
-│   ├── constants/
-│   │   ├── creator.ts           # CREATOR constant with profile data
-│   │   └── index.ts
-│   ├── schemas/
-│   │   ├── person.ts           # + person.test.ts
-│   │   ├── organization.ts    # + organization.test.ts
-│   │   ├── website.ts         # + website.test.ts
-│   │   ├── webpage.ts         # webpageSchema, aboutPageSchema, contactPageSchema + tests
-│   │   ├── webApplication.ts  # + webApplication.test.ts
-│   │   ├── webApi.ts
-│   │   ├── softwareApplication.ts
-│   │   ├── softwareSourceCode.ts  # + softwareSourceCode.test.ts
-│   │   ├── breadcrumbList.ts     # + breadcrumbList.test.ts
-│   │   └── index.ts
-│   ├── utils/
-│   │   ├── deepMerge.ts       # SchemaEntity type, deepMerge, mergeWithType + tests
-│   │   ├── validate.ts        # validateUrl + tests
-│   │   └── index.ts
-│   ├── index.ts              # Main entry
-│   └── react.tsx             # React entry (includes JsonLd)
-├── LICENSE                   # MIT License
-├── README.md                 # Project documentation
-├── vitest.setup.ts
-├── vitest.config.ts
-├── vite.config.ts
-├── tsconfig.json
-├── tsconfig.build.json
-├── eslint.config.mjs
-├── prettier.config.mjs
-├── commitlint.config.mjs
-├── jsconfig.json
-├── .editorconfig
-└── package.json
+src/
+├── components/
+│   ├── JsonLd.tsx              # React component for JSON-LD script tags
+│   └── index.ts
+├── constants/
+│   ├── creator.ts               # CREATOR constant with profile data
+│   └── index.ts
+├── schemas/
+│   ├── breadCrumb.ts            # + breadCrumb.test.ts
+│   ├── organization.ts          # + organization.test.ts
+│   ├── person.ts                # + person.test.ts
+│   ├── softwareApp.ts           # + softwareApp.test.ts
+│   ├── webAPI.ts                # + webAPI.test.ts
+│   ├── webPage.ts               # webpageSchema, aboutPageSchema, contactPageSchema + webPage.test.ts
+│   ├── webSite.ts               # + webSite.test.ts
+│   └── index.ts
+├── utils/
+│   ├── merge.ts                 # SchemaEntity, deepMerge, mergeWithType + merge.test.ts
+│   ├── schema.ts                # buildId, toGraph + schema.test.ts
+│   ├── url.ts                   # validateUrl, resolveUrl, cleanUrl + url.test.ts
+│   └── index.ts
+├── index.ts                     # Main entry (re-exports schemas, constants, utils)
+└── react.tsx                   # React entry (exports JsonLd component)
 ```
 
 ## Conventions
 
 ### Naming
 
-- Components: `PascalCase` (`Button.tsx`)
+- Components: `PascalCase` (`JsonLd.tsx`)
 - Functions: `camelCase` (`personSchema`)
 - Files: `camelCase` (`deepMerge.ts`)
 - Types/Interfaces: `PascalCase` (`PersonOptions`)
@@ -109,11 +96,15 @@ npm run test:coverage # Generate coverage report
 # Linting & Formatting
 npm run lint         # Lint all files
 npm run lint:fix     # Fix auto-fixable issues
-npm run format        # Format files
+npm run format       # Format files
 npm run format:check # Check formatting
 
 # Type Checking
 npm run tsc          # TypeScript type check
+
+# Release
+npm run release      # Create a release (publishes to npm and GitHub)
+npm run release:dry  # Dry run release
 ```
 
 ## Commit Message Format
@@ -134,33 +125,37 @@ fix: standardize react types in components
 All inputs are validated:
 
 - `rootUrl` - Must be a valid HTTP(S) URL, throws error if empty/null/undefined/invalid
-- Use `validateUrl()` utility from `@/utils/validate`
+- Use `validateUrl()` utility from `@/utils/url`
 
 ## Schema Types
 
 The package provides the following schema types:
 
-- `personSchema` - Schema.org Person entity
-- `organizationSchema` - Schema.org Organization entity
-- `websiteSchema` - Schema.org WebSite entity
-- `webpageSchema` - Schema.org WebPage entity
-- `aboutPageSchema` - Schema.org AboutPage entity
-- `contactPageSchema` - Schema.org ContactPage entity
-- `webAppSchema` - Schema.org WebApplication entity
-- `webApiSchema` - Schema.org WebAPI entity
-- `softwareApplicationSchema` - Schema.org SoftwareApplication entity
-- `softwareSourceCodeSchema` - Schema.org SoftwareSourceCode entity
-- `breadcrumbSchema` - Schema.org BreadcrumbList entity
+| Function             | Schema.org Type     |
+| -------------------- | ------------------- |
+| `personSchema`       | Person              |
+| `organizationSchema` | Organization        |
+| `websiteSchema`      | WebSite             |
+| `webpageSchema`      | WebPage             |
+| `aboutPageSchema`    | AboutPage           |
+| `contactPageSchema`  | ContactPage         |
+| `webAppSchema`       | WebApplication      |
+| `webApiSchema`       | WebAPI              |
+| `softwareAppSchema`  | SoftwareApplication |
+| `breadcrumbSchema`   | BreadcrumbList      |
 
 ## Utilities
 
-| File           | Function          | Description                               |
-| -------------- | ----------------- | ----------------------------------------- |
-| `validate.ts`  | `validateUrl()`   | Validates HTTP(S) URLs, throws on invalid |
-| `deepMerge.ts` | `deepMerge()`     | Recursively merges objects                |
-| `deepMerge.ts` | `mergeWithType()` | Merges while preserving `@type`           |
-| `deepMerge.ts` | `SchemaEntity`    | Type alias for `Record<string, unknown>`  |
-| `schemaDts.ts` | `toGraph()`       | Wraps entities in `@graph` structure      |
+| File        | Function          | Description                                |
+| ----------- | ----------------- | ------------------------------------------ |
+| `url.ts`    | `validateUrl()`   | Validates HTTP(S) URLs, throws on invalid  |
+| `url.ts`    | `resolveUrl()`    | Resolves URL with path                     |
+| `url.ts`    | `cleanUrl()`      | Cleans URL (trailing slash, query strings) |
+| `merge.ts`  | `deepMerge()`     | Recursively merges objects                 |
+| `merge.ts`  | `mergeWithType()` | Merges while preserving `@type`            |
+| `merge.ts`  | `SchemaEntity`    | Type alias for `Record<string, unknown>`   |
+| `schema.ts` | `toGraph()`       | Wraps entities in `@graph` structure       |
+| `schema.ts` | `buildId()`       | Builds schema ID from URL and fragment     |
 
 ## React Components
 
@@ -173,3 +168,12 @@ import JsonLd from "@vijayhardaha/schema/react";
 
 <JsonLd data={[personSchema(options), websiteSchema(options)]} />;
 ```
+
+## Build Configuration
+
+The package uses Vite with multi-entry points:
+
+- `src/index.ts` → `dist/index.js` (core utilities and schemas)
+- `src/react.tsx` → `dist/react.js` (React components)
+
+Output is ESM only with `.js` extension. Declaration files (`.d.ts`) are generated by `vite-plugin-dts` with source maps.

@@ -37,7 +37,7 @@ export function someSchema(
 
 ### Important rules
 
-1. **Always validate `rootUrl`** using `validateUrl()` from `@/utils/validate` - it throws on invalid input
+1. **Always validate `rootUrl`** using `validateUrl()` from `@/utils/url` - it throws on invalid input
 2. **Use schema-dts types** - Import types from `schema-dts` for type safety
 3. **Return `Record<string, unknown>`** - Not `WithContext<T>` from schema-dts
 4. **Keep `@type` final** - The override parameter should not be able to change the schema type
@@ -47,7 +47,7 @@ export function someSchema(
 
 ### File naming
 
-- Use camelCase for all file names: `deepMerge.ts`, `personSchema.ts`
+- Use camelCase for all file names: `merge.ts`, `person.ts`
 - Don't use hyphens or underscores
 
 ### JSDoc requirements
@@ -66,10 +66,12 @@ Skip JSDoc for:
 ## Available commands
 
 ```bash
-npm run test      # Run tests
-npm run lint      # Lint files
-npm run tsc       # Type check
-npm run build     # Build package
+npm run test         # Run tests
+npm run lint         # Lint files
+npm run tsc          # Type check
+npm run build        # Build package
+npm run release      # Create release (npm + GitHub)
+npm run release:dry  # Dry run release
 ```
 
 ## Don't
@@ -82,5 +84,5 @@ npm run build     # Build package
 
 ## Project files
 
-- `LICENSE` - MIT License (2025 Vijay Hardaha)
+- `LICENSE` - MIT License (Vijay Hardaha)
 - `README.md` - Project documentation
