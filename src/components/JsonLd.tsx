@@ -1,4 +1,3 @@
-import type { JSX } from 'react';
 import { toGraph } from '@/utils/schema';
 import type { SchemaEntity } from '@/utils/merge';
 
@@ -18,6 +17,6 @@ export function safeJsonLd(data: unknown): string {
  * @param {{ data: SchemaEntity[] }} props - An array of Schema.org entity objects to embed.
  * @returns A script element containing the serialized JSON-LD graph.
  */
-export default function JsonLd({ data }: { data: SchemaEntity[] }): JSX.Element {
+export default function JsonLd({ data }: { data: SchemaEntity[] }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(toGraph(...data)) }} />;
 }

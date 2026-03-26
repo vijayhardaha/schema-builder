@@ -15,37 +15,33 @@ import dts from 'vite-plugin-dts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// ---- Module Resolution ----
-export default defineConfig(({ mode }) => ({
-  // ---- Plugins ----
-  plugins: [
-    // Generate .d.ts declaration files from source, excluding tests
-    dts({ include: ['src/**/*.ts', 'src/**/*.tsx'], exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'] }),
-  ],
+export default defineConfig({
   resolve: { alias: { '@': path.resolve(__dirname, './src') } },
+  plugins: [dts({ include: ['src/**/*.ts', 'src/**/*.tsx'], exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'] })],
   build: {
     outDir: 'dist',
-    // Clean the output directory only on first build
-    emptyOutDir: mode !== 'react',
+    emptyOutDir: true,
     lib: {
-      // Build one entry at a time based on mode
-      entry: path.resolve(__dirname, mode === 'react' ? 'src/react.tsx' : 'src/index.ts'),
-      // Output ESM and CJS formats with .cjs extension for CommonJS
-      formats: ['es', 'cjs'] as const,
-      // Write flat files such as index.js, index.cjs, react.js, react.cjs
-      fileName: (format, entryName) => `${entryName}.${format === 'cjs' ? 'cjs' : 'js'}`,
+      entry: { index: path.resolve(__dirname, 'src/index.ts'), react: path.resolve(__dirname, 'src/react.tsx') },
+      formats: ['es'],
+      fileName: (_format, entryName) => entryName + '.js',
     },
     rollupOptions: {
-      // Exclude React from the bundle; consumers provide their own
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: ['react', 'react/jsx-runtime'],
       output: {
-        // Map externals to global variable names for UMD fallback
-        globals: { react: 'React', 'react-dom': 'ReactDOM', 'react/jsx-runtime': 'jsx-runtime' },
+        preserveModules: false,
+        globals: { react: 'React', 'react/jsx-runtime': 'jsx-runtime' },
+        entryFileNames: '[name].js',
+        chunkFileNames: '[name].js',
+        manualChunks(id) {
+          if (id.includes('/utils/')) {
+            return 'utils';
+          }
+          return;
+        },
       },
     },
-    // Emit inline source maps for debugging
     sourcemap: true,
-    // Keep output readable for development
     minify: false,
   },
-}));
+});

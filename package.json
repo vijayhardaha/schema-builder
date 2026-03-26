@@ -30,15 +30,15 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.js"
     },
     "./react": {
       "types": "./dist/react.d.ts",
       "import": "./dist/react.js",
-      "require": "./dist/react.cjs"
+      "require": "./dist/react.js"
     }
   },
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -47,7 +47,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm run tsc && vite build && vite build --mode react",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx,.mjs,.cjs .",
     "lint:fix": "eslint --fix --ext .ts,.tsx,.js,.jsx,.mjs,.cjs .",
@@ -72,7 +72,6 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.57.2",
     "@typescript-eslint/parser": "^8.57.2",
     "@vitest/coverage-v8": "^4.1.1",
@@ -82,7 +81,6 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
     "globals": "^17.4.0",
     "husky": "^9.1.7",
     "jsdom": "^29.0.1",
