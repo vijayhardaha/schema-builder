@@ -33,32 +33,23 @@ export function webApiSchema(options: WebApiOptions, overrides?: Partial<WebAPI>
   const canonicalUrl = resolveUrl(rootUrl, options.path);
   const orgId = buildId(rootUrl, 'organization');
 
-  const schema: Record<string, unknown> = {
+  const schema: WebAPI = {
     '@type': 'WebAPI',
     '@id': buildId(canonicalUrl, 'webapi'),
-    name: options.name,
-    description: options.description,
+
+    name: 'Your API Name',
+    description: 'A brief description of your API.',
     url: canonicalUrl,
-    applicationCategory: options.applicationCategory || 'DeveloperApplication',
-    operatingSystem: options.operatingSystem || 'All',
-    softwareVersion: options.version || '1.0.0',
-    isAccessibleForFree: true,
-    author: { '@id': orgId },
-    publisher: { '@id': orgId },
+    documentation: canonicalUrl,
+
+    provider: { '@id': orgId },
     mainEntityOfPage: { '@id': buildId(canonicalUrl, 'webpage') },
-    offers: {
-      '@type': 'Offer',
-      price: options.price || '0.00',
-      priceCurrency: 'USD',
-      availability: 'https://schema.org/InStock',
-    },
+    offers: { '@type': 'Offer', price: options.price ?? 0, priceCurrency: 'USD', availability: 'InStock' },
+    serviceOutput: 'JSON',
   };
 
-  if (options.applicationSubCategory) schema.applicationSubCategory = options.applicationSubCategory;
-  if (options.downloadUrl) schema.downloadUrl = options.downloadUrl;
-  if (options.installUrl) schema.installUrl = options.installUrl;
-  if (options.requirements) schema.softwareRequirements = options.requirements;
-  if (options.linkSourceCode) schema.isBasedOn = buildId(canonicalUrl, 'source');
-
-  return mergeWithType(schema, overrides as Record<string, unknown>) as unknown as WebAPI;
+  return mergeWithType(
+    schema as unknown as Record<string, unknown>,
+    overrides as Record<string, unknown>
+  ) as unknown as WebAPI;
 }

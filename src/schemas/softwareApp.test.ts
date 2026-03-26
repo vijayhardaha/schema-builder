@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { softwareAppSchema } from './softwareApp';
 
+// describe: Tests for softwareAppSchema
 describe('softwareAppSchema', () => {
+  // it: should create a valid SoftwareApplication schema
   it('should create a valid SoftwareApplication schema', () => {
     const result = softwareAppSchema({
       rootUrl: 'https://example.com',
@@ -9,10 +11,13 @@ describe('softwareAppSchema', () => {
       description: 'A great app',
       path: 'app',
     });
+    // expect: verifies the returned @type is SoftwareApplication
     expect(result['@type']).toBe('SoftwareApplication');
   });
 
+  // it: should throw error for invalid rootUrl
   it('should throw error for invalid rootUrl', () => {
+    // expect: throws when rootUrl is empty
     expect(() => softwareAppSchema({ rootUrl: '', name: 'Test', description: 'Test', path: 'test' })).toThrow();
   });
 });
