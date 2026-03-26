@@ -1,6 +1,6 @@
 import type { SoftwareSourceCode } from 'schema-dts';
 
-import { validateUrl } from '@/utils/validate';
+import { buildCanonicalUrl, validateUrl } from '@/utils';
 
 /**
  * Options for building a Schema.org SoftwareSourceCode entity with repository metadata.
@@ -30,7 +30,7 @@ export function softwareSourceCodeSchema(
   overrides?: Record<string, unknown>
 ): Record<string, unknown> {
   const rootUrl = validateUrl(options.rootUrl);
-  const canonicalUrl = `${rootUrl}/${options.path}`.replace(/\/+$/, '').replace(/\/+/g, '/');
+  const canonicalUrl = buildCanonicalUrl(rootUrl, options.path);
   const personId = `${rootUrl}#person`;
   const orgId = `${rootUrl}#organization`;
 

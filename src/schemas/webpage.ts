@@ -1,6 +1,6 @@
 import type { AboutPage, ContactPage, WebPage } from 'schema-dts';
 
-import { validateUrl } from '@/utils/validate';
+import { buildCanonicalUrl, validateUrl } from '@/utils';
 
 /**
  * Options for building a Schema.org WebPage entity with routing and type information.
@@ -17,7 +17,7 @@ export type WebPageOptions = {
 
 function buildWebPageSchema(options: WebPageOptions, overrides?: Record<string, unknown>): WebPage {
   const rootUrl = validateUrl(options.rootUrl);
-  const canonicalUrl = `${rootUrl}/${options.path}`.replace(/\/+$/, '').replace(/\/+/g, '/');
+  const canonicalUrl = buildCanonicalUrl(rootUrl, options.path);
   const personId = `${rootUrl}#person`;
   const orgId = `${rootUrl}#organization`;
   const webSiteID = `${rootUrl}#website`;

@@ -1,4 +1,4 @@
-import { validateUrl } from '@/utils/validate';
+import { buildCanonicalUrl, validateUrl } from '@/utils';
 
 /**
  * Options for building a Schema.org WebApplication or related software entity.
@@ -29,7 +29,7 @@ export type WebAppOptions = {
  */
 export function webAppSchema(options: WebAppOptions, overrides?: Record<string, unknown>): Record<string, unknown> {
   const rootUrl = validateUrl(options.rootUrl);
-  const canonicalUrl = `${rootUrl}/${options.path}`.replace(/\/+$/, '').replace(/\/+/g, '/');
+  const canonicalUrl = buildCanonicalUrl(rootUrl, options.path);
   const orgId = `${rootUrl}#organization`;
   const personId = `${rootUrl}#person`;
 

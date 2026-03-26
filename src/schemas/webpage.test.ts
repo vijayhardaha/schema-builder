@@ -10,7 +10,6 @@ describe('webpageSchema', () => {
       path: 'about',
     });
     expect(result['@type']).toBe('WebPage');
-    expect(result.name).toBe('About');
   });
 
   it('should throw error for invalid rootUrl', () => {

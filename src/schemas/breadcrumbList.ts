@@ -1,6 +1,6 @@
 import type { BreadcrumbList, ListItem } from 'schema-dts';
 
-import { validateUrl } from '@/utils/validate';
+import { buildCanonicalUrl, validateUrl } from '@/utils';
 
 /** A single breadcrumb navigation item with display name and URL path. */
 export type BreadcrumbItem = { name: string; path: string };
@@ -22,14 +22,13 @@ export function breadcrumbSchema(
   const rootUrl = validateUrl(options.rootUrl);
   const { items } = options;
   const lastItem = items[items.length - 1];
-  const breadcrumbUrl = lastItem ? `${rootUrl}/${lastItem.path}` : rootUrl;
-  const canonicalUrl = breadcrumbUrl.replace(/\/+$/, '').replace(/\/+/g, '/');
+  const canonicalUrl = buildCanonicalUrl(rootUrl, lastItem?.path);
 
   const schema: BreadcrumbList = {
     '@type': 'BreadcrumbList',
     '@id': `${canonicalUrl}#breadcrumb`,
     itemListElement: items.map<ListItem>((item, index) => {
-      const url = `${rootUrl}/${item.path}`.replace(/\/+$/, '').replace(/\/+/g, '/');
+      const url = buildCanonicalUrl(rootUrl, item.path);
 
       return {
         '@type': 'ListItem',
