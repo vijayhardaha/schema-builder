@@ -57,9 +57,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "tsc": "tsc --noEmit",
-    "prepare": "husky",
-    "release": "release-it",
-    "release:dry": "release-it --dry-run"
+    "prepare": "husky"
   },
   "dependencies": {
     "react": ">=19.0.0",
