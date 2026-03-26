@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { websiteSchema } from './website';
+import { websiteSchema } from './webSite';
 
 describe('websiteSchema', () => {
   it('should create a valid WebSite schema', () => {

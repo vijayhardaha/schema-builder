@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { breadcrumbSchema } from './breadcrumbList';
+import { breadcrumbSchema } from './breadCrumb';
 
 describe('breadcrumbSchema', () => {
   it('should create a valid BreadcrumbList schema', () => {

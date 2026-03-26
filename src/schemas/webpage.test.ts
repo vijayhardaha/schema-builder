@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { webpageSchema } from './webpage';
+import { webpageSchema } from './webPage';
 
 describe('webpageSchema', () => {
   it('should create a valid WebPage schema', () => {
