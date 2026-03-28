@@ -20,8 +20,8 @@ export function organizationSchema(options: OrganizationOptions, overrides?: Par
   const schema: Organization = {
     '@type': 'Organization',
     '@id': orgId,
-    name: 'Your Name or Organization',
-    description: 'A brief description of your organization.',
+    name: '', // Your Name or Organization
+    description: '', // A brief description of your organization
     url: rootUrl,
     logo: { '@type': 'ImageObject', url: `${rootUrl}/logo.png`, width: '512', height: '512' },
     founder: { '@id': personId },
@@ -29,8 +29,17 @@ export function organizationSchema(options: OrganizationOptions, overrides?: Par
     sameAs: [],
   };
 
-  return mergeWithType(
+  const result = mergeWithType(
     schema as unknown as Record<string, unknown>,
     overrides as Record<string, unknown>
   ) as unknown as Organization;
+
+  // Remove undefined fields (important for clean JSON-LD)
+  Object.keys(result).forEach((key) => {
+    if (result[key as keyof Organization] === undefined) {
+      delete result[key as keyof Organization];
+    }
+  });
+
+  return result;
 }

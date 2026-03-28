@@ -23,8 +23,8 @@ export function webApiSchema(options: WebApiOptions, overrides?: Partial<WebAPI>
     '@type': 'WebAPI',
     '@id': buildId(canonicalUrl, 'webapi'),
 
-    name: 'Your API Name',
-    description: 'A brief description of your API.',
+    name: '', // Your API Name
+    description: '', // A brief description of your API
     url: canonicalUrl,
     documentation: canonicalUrl,
 
@@ -34,8 +34,17 @@ export function webApiSchema(options: WebApiOptions, overrides?: Partial<WebAPI>
     serviceOutput: 'JSON',
   };
 
-  return mergeWithType(
+  const result = mergeWithType(
     schema as unknown as Record<string, unknown>,
     overrides as Record<string, unknown>
   ) as unknown as WebAPI;
+
+  // Remove undefined fields (important for clean JSON-LD)
+  Object.keys(result).forEach((key) => {
+    if (result[key as keyof WebAPI] === undefined) {
+      delete result[key as keyof WebAPI];
+    }
+  });
+
+  return result;
 }

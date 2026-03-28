@@ -38,8 +38,8 @@ export function softwareAppSchema(
   const schema: SoftwareApplication = {
     '@type': 'SoftwareApplication',
     '@id': buildId(canonicalUrl, 'app'),
-    name: 'Your Application Name',
-    description: 'A brief description of your application.',
+    name: '', // Your Application Name
+    description: '', // A brief description of your application
     url: canonicalUrl,
 
     applicationCategory: options.applicationCategory || 'UtilityApplication',
@@ -60,8 +60,17 @@ export function softwareAppSchema(
   if (options.requirements) schema.softwareRequirements = options.requirements;
   if (options.sourceCode) schema.isBasedOn = options.sourceCode;
 
-  return mergeWithType(
+  const result = mergeWithType(
     schema as unknown as Record<string, unknown>,
     overrides as Record<string, unknown>
   ) as unknown as SoftwareApplication;
+
+  // Remove undefined fields (important for clean JSON-LD)
+  Object.keys(result).forEach((key) => {
+    if (result[key as keyof SoftwareApplication] === undefined) {
+      delete result[key as keyof SoftwareApplication];
+    }
+  });
+
+  return result;
 }

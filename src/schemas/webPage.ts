@@ -31,10 +31,11 @@ function buildWebPageSchema(options: WebPageOptions, overrides?: Partial<WebPage
   const schema: WebPage = {
     '@type': options.type || 'WebPage',
     '@id': buildId(canonicalUrl, 'webpage'),
-    url: canonicalUrl,
-    name: 'Your Page Name',
-    description: 'A brief description of this page.',
+
+    name: '', // Your Page Name
+    description: '', // A brief description of this page
     inLanguage: 'en',
+    url: canonicalUrl,
 
     isPartOf: { '@id': webSiteID },
     publisher: { '@id': orgId },
@@ -55,10 +56,19 @@ function buildWebPageSchema(options: WebPageOptions, overrides?: Partial<WebPage
     schema.breadcrumb = { '@id': breadcrumbId };
   }
 
-  return mergeWithType(
+  const result = mergeWithType(
     schema as unknown as Record<string, unknown>,
     overrides as Record<string, unknown>
   ) as unknown as WebPage;
+
+  // Remove undefined fields (important for clean JSON-LD)
+  Object.keys(result).forEach((key) => {
+    if (result[key as keyof WebPage] === undefined) {
+      delete result[key as keyof WebPage];
+    }
+  });
+
+  return result;
 }
 
 /**

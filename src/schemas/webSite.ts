@@ -20,18 +20,28 @@ export function websiteSchema(options: WebSiteOptions, overrides?: Partial<WebSi
   const schema: WebSite = {
     '@type': 'WebSite',
     '@id': buildId(rootUrl, 'website'),
+
+    name: '', // Your Website Name
+    description: '', // A brief description of your website
+    alternateName: '', // Your Website Alternate Name
+
     url: rootUrl,
-    name: 'Your Website Name',
-    description: 'A brief description of your website.',
-    alternateName: 'Your Website Alternate Name',
     inLanguage: 'en',
     author: { '@id': personId },
     publisher: { '@id': orgId },
-    sameAs: [],
   };
 
-  return mergeWithType(
+  const result = mergeWithType(
     schema as unknown as Record<string, unknown>,
     overrides as Record<string, unknown>
   ) as unknown as WebSite;
+
+  // Remove undefined fields (important for clean JSON-LD)
+  Object.keys(result).forEach((key) => {
+    if (result[key as keyof WebSite] === undefined) {
+      delete result[key as keyof WebSite];
+    }
+  });
+
+  return result;
 }
