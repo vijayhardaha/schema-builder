@@ -26,7 +26,6 @@ export function organizationSchema(options: OrganizationOptions, overrides?: Par
     logo: { '@type': 'ImageObject', url: `${rootUrl}/logo.png`, width: '512', height: '512' },
     founder: { '@id': personId },
     foundingDate: new Date().getFullYear().toString(),
-    sameAs: [],
   };
 
   const result = mergeWithType(
