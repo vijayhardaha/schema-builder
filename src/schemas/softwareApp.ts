@@ -65,12 +65,5 @@ export function softwareAppSchema(
     overrides as Record<string, unknown>
   ) as unknown as SoftwareApplication;
 
-  // Remove undefined fields (important for clean JSON-LD)
-  Object.keys(result).forEach((key) => {
-    if (result[key as keyof SoftwareApplication] === undefined) {
-      delete result[key as keyof SoftwareApplication];
-    }
-  });
-
   return result;
 }

@@ -82,12 +82,5 @@ export function personSchema(options: PersonOptions, overrides?: Partial<Person>
     overrides as Record<string, unknown> | undefined
   ) as unknown as Person;
 
-  // Remove undefined fields (important for clean JSON-LD)
-  Object.keys(result).forEach((key) => {
-    if (result[key as keyof Person] === undefined) {
-      delete result[key as keyof Person];
-    }
-  });
-
   return result;
 }

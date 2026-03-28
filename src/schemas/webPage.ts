@@ -61,13 +61,6 @@ function buildWebPageSchema(options: WebPageOptions, overrides?: Partial<WebPage
     overrides as Record<string, unknown>
   ) as unknown as WebPage;
 
-  // Remove undefined fields (important for clean JSON-LD)
-  Object.keys(result).forEach((key) => {
-    if (result[key as keyof WebPage] === undefined) {
-      delete result[key as keyof WebPage];
-    }
-  });
-
   return result;
 }
 

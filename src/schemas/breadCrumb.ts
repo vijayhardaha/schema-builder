@@ -33,12 +33,5 @@ export function breadcrumbSchema(options: BreadcrumbOptions, overrides?: Partial
 
   const result = mergeWithType(schema as unknown as Partial<BreadcrumbList>, overrides) as unknown as BreadcrumbList;
 
-  // Remove undefined fields (important for clean JSON-LD)
-  Object.keys(result).forEach((key) => {
-    if (result[key as keyof BreadcrumbList] === undefined) {
-      delete result[key as keyof BreadcrumbList];
-    }
-  });
-
   return result;
 }

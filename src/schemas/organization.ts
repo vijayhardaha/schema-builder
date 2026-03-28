@@ -33,12 +33,5 @@ export function organizationSchema(options: OrganizationOptions, overrides?: Par
     overrides as Record<string, unknown>
   ) as unknown as Organization;
 
-  // Remove undefined fields (important for clean JSON-LD)
-  Object.keys(result).forEach((key) => {
-    if (result[key as keyof Organization] === undefined) {
-      delete result[key as keyof Organization];
-    }
-  });
-
   return result;
 }

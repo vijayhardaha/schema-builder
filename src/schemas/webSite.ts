@@ -36,12 +36,5 @@ export function websiteSchema(options: WebSiteOptions, overrides?: Partial<WebSi
     overrides as Record<string, unknown>
   ) as unknown as WebSite;
 
-  // Remove undefined fields (important for clean JSON-LD)
-  Object.keys(result).forEach((key) => {
-    if (result[key as keyof WebSite] === undefined) {
-      delete result[key as keyof WebSite];
-    }
-  });
-
   return result;
 }

@@ -39,12 +39,5 @@ export function webApiSchema(options: WebApiOptions, overrides?: Partial<WebAPI>
     overrides as Record<string, unknown>
   ) as unknown as WebAPI;
 
-  // Remove undefined fields (important for clean JSON-LD)
-  Object.keys(result).forEach((key) => {
-    if (result[key as keyof WebAPI] === undefined) {
-      delete result[key as keyof WebAPI];
-    }
-  });
-
   return result;
 }
