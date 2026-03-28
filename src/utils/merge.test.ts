@@ -38,6 +38,15 @@ describe('deepMerge', () => {
     // expect: original object returned when no overrides
     expect(result).toEqual({ a: 1 });
   });
+
+  // it: should skip undefined override values
+  it('should skip undefined override values', () => {
+    const base = { a: 1, b: 2 };
+    const overrides = { b: undefined, c: 3 };
+    const result = deepMerge(base, overrides);
+    // expect: undefined values are skipped
+    expect(result).toEqual({ a: 1, b: 2, c: 3 });
+  });
 });
 
 // describe: Tests for mergeWithType
@@ -60,5 +69,14 @@ describe('mergeWithType', () => {
     const result = mergeWithType(schema, overrides);
     // expect: @type from base schema remains unchanged
     expect(result['@type']).toBe('Person');
+  });
+
+  // it: should handle schema without @type
+  it('should handle schema without @type', () => {
+    const schema = { name: 'John', url: 'https://example.com' };
+    const overrides = { description: 'A person' };
+    const result = mergeWithType(schema, overrides);
+    // expect: works fine without @type
+    expect(result).toEqual({ name: 'John', url: 'https://example.com', description: 'A person' });
   });
 });

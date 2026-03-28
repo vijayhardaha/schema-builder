@@ -16,4 +16,11 @@ describe('softwareAppSchema', () => {
     // expect: throws when rootUrl is empty
     expect(() => softwareAppSchema({ rootUrl: '', path: 'test' })).toThrow();
   });
+
+  // it: should remove undefined fields from overrides
+  it('should remove undefined fields from overrides', () => {
+    const result = softwareAppSchema({ rootUrl: 'https://example.com', path: 'app' }, { version: undefined });
+    // expect: undefined fields are removed
+    expect((result as unknown as Record<string, unknown>).version).toBeUndefined();
+  });
 });

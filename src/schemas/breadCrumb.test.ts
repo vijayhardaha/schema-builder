@@ -22,4 +22,12 @@ describe('breadcrumbSchema', () => {
     // expect: invalid rootUrl causes error
     expect(() => breadcrumbSchema({ rootUrl: '', items: [{ name: 'Home', path: '' }] })).toThrow();
   });
+
+  // it: should remove undefined fields from overrides
+  it('should remove undefined fields from overrides', () => {
+    const items = [{ name: 'Home', path: '' }];
+    const result = breadcrumbSchema({ rootUrl: 'https://example.com', items }, { description: undefined });
+    // expect: undefined fields are removed
+    expect((result as unknown as Record<string, unknown>).description).toBeUndefined();
+  });
 });

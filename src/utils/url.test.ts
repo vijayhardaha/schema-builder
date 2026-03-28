@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { resolveUrl, cleanUrl } from './url';
+import { resolveUrl, cleanUrl, validateUrl } from './url';
 
 // describe: Tests for resolveUrl
 describe('resolveUrl', () => {
@@ -64,5 +64,14 @@ describe('cleanUrl', () => {
   it('should preserve query string when false', () => {
     // expect: query strings preserved when not removed
     expect(cleanUrl('https://example.com/page?q=1', true, false)).toBe('https://example.com/page?q=1');
+  });
+});
+
+// describe: Tests for validateUrl
+describe('validateUrl', () => {
+  // it: should throw error for invalid protocol
+  it('should throw error for invalid protocol', () => {
+    // expect: throws when URL uses invalid protocol
+    expect(() => validateUrl('ftp://example.com')).toThrow('URL must be a valid HTTP/HTTPS URL');
   });
 });
