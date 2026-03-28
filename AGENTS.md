@@ -33,7 +33,7 @@ src/
 │   ├── organization.ts          # + organization.test.ts
 │   ├── person.ts                # + person.test.ts
 │   ├── softwareApp.ts           # + softwareApp.test.ts
-│   ├── webAPI.ts                # + webAPI.test.ts
+│   ├── webApi.ts                # + webApi.test.ts
 │   ├── webPage.ts               # webpageSchema, aboutPageSchema, contactPageSchema + webPage.test.ts
 │   ├── webSite.ts               # + webSite.test.ts
 │   └── index.ts
@@ -62,12 +62,24 @@ Each schema function follows this pattern:
 ```typescript
 import type { Person } from "schema-dts";
 
-export type SchemaOptions = { rootUrl: string /* other options */ };
+import { mergeWithType, validateUrl } from "@/utils";
 
-export function schemaFunction(options: SchemaOptions, overrides?: Partial<Person>): Record<string, unknown> {
+export type PersonOptions = { rootUrl: string };
+
+export function personSchema(options: PersonOptions, overrides?: Partial<Person>): Person {
   const rootUrl = validateUrl(options.rootUrl);
-  // ... build schema using schema-dts types
-  return { "@context": "https://schema.org", ...schema };
+
+  const schema: Person = {
+    "@type": "Person"
+    // ... build schema using schema-dts types
+  };
+
+  const result = mergeWithType(
+    schema as unknown as Record<string, unknown>,
+    overrides as Record<string, unknown>
+  ) as unknown as Person;
+
+  return result;
 }
 ```
 
