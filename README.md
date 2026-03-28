@@ -12,6 +12,7 @@ Reusable Schema.org structured data utilities, types, and React components with 
 - React components for JSON-LD script tags
 - Utility functions for merging and validating schemas
 - Comprehensive test coverage
+- [100% test coverage](CHANGELOG.md)
 
 ## Installation
 
@@ -84,6 +85,10 @@ export default function MyPage() {
 | Component | Description                                    |
 | --------- | ---------------------------------------------- |
 | `JsonLd`  | Renders JSON-LD script tag with XSS protection |
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for all changes.
 
 ## License
 
