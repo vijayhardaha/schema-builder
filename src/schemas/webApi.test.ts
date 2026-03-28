@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+
 import { webApiSchema } from './webApi';
 
 // describe: Tests for webApiSchema

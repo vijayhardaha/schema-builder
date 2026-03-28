@@ -1,5 +1,5 @@
-import { toGraph } from '@/utils/schema';
 import type { SchemaEntity } from '@/utils/merge';
+import { toGraph } from '@/utils/schema';
 
 /**
  * Serializes data to JSON and escapes HTML script-closing tags to prevent XSS injection.

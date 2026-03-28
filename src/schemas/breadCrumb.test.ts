@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+
 import { breadcrumbSchema } from './breadCrumb';
 
 // describe: Tests for breadcrumbSchema
