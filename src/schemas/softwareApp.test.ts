@@ -23,4 +23,55 @@ describe('softwareAppSchema', () => {
     // expect: undefined fields are removed
     expect((result as unknown as Record<string, unknown>).version).toBeUndefined();
   });
+
+  // it: should include applicationSubCategory when provided
+  it('should include applicationSubCategory when provided', () => {
+    const result = softwareAppSchema({
+      rootUrl: 'https://example.com',
+      path: 'app',
+      applicationSubCategory: 'Developer Tools',
+    });
+    // expect: applicationSubCategory is included
+    expect((result as unknown as Record<string, unknown>).applicationSubCategory).toBe('Developer Tools');
+  });
+
+  // it: should include downloadUrl when provided
+  it('should include downloadUrl when provided', () => {
+    const result = softwareAppSchema({
+      rootUrl: 'https://example.com',
+      path: 'app',
+      downloadUrl: 'https://example.com/download',
+    });
+    // expect: downloadUrl is included
+    expect((result as unknown as Record<string, unknown>).downloadUrl).toBe('https://example.com/download');
+  });
+
+  // it: should include installUrl when provided
+  it('should include installUrl when provided', () => {
+    const result = softwareAppSchema({
+      rootUrl: 'https://example.com',
+      path: 'app',
+      installUrl: 'https://example.com/install',
+    });
+    // expect: installUrl is included
+    expect((result as unknown as Record<string, unknown>).installUrl).toBe('https://example.com/install');
+  });
+
+  // it: should include requirements when provided
+  it('should include requirements when provided', () => {
+    const result = softwareAppSchema({ rootUrl: 'https://example.com', path: 'app', requirements: 'Node.js 18+' });
+    // expect: softwareRequirements is included
+    expect((result as unknown as Record<string, unknown>).softwareRequirements).toBe('Node.js 18+');
+  });
+
+  // it: should include sourceCode when provided
+  it('should include sourceCode when provided', () => {
+    const result = softwareAppSchema({
+      rootUrl: 'https://example.com',
+      path: 'app',
+      sourceCode: 'https://github.com/example/app',
+    });
+    // expect: isBasedOn is included
+    expect((result as unknown as Record<string, unknown>).isBasedOn).toBe('https://github.com/example/app');
+  });
 });
