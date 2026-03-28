@@ -12,7 +12,7 @@ export type WebSiteOptions = { rootUrl: string };
  * @param {Partial<WebSite>} [overrides] - Optional property overrides to merge into the schema.
  * @returns {WebSite} A WebSite schema entity with author and language metadata.
  */
-export function websiteSchema(options: WebSiteOptions, overrides?: Partial<WebSite>): WebSite {
+export function webSiteSchema(options: WebSiteOptions, overrides?: Partial<WebSite>): WebSite {
   const rootUrl = validateUrl(options.rootUrl);
   const personId = buildId(rootUrl, 'person');
   const orgId = buildId(rootUrl, 'organization');

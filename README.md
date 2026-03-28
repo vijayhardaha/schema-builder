@@ -25,10 +25,10 @@ npm install @vijayhardaha/schema-builder
 ### JavaScript/TypeScript
 
 ```typescript
-import { personSchema, websiteSchema, toGraph } from "@vijayhardaha/schema-builder";
+import { personSchema, webSiteSchema, toGraph } from "@vijayhardaha/schema-builder";
 
 const person = personSchema({ rootUrl: "https://example.com" });
-const website = websiteSchema({ rootUrl: "https://example.com" });
+const website = webSiteSchema({ rootUrl: "https://example.com" });
 
 // Use toGraph() to wrap multiple entities
 const graph = toGraph(person, website);
@@ -38,14 +38,14 @@ const graph = toGraph(person, website);
 
 ```tsx
 import JsonLd from "@vijayhardaha/schema-builder/react";
-import { personSchema, websiteSchema } from "@vijayhardaha/schema-builder";
+import { personSchema, webSiteSchema } from "@vijayhardaha/schema-builder";
 
 export default function MyPage() {
   return (
     <div>
       <h1>My Page</h1>
       <JsonLd
-        data={[personSchema({ rootUrl: "https://example.com" }), websiteSchema({ rootUrl: "https://example.com" })]}
+        data={[personSchema({ rootUrl: "https://example.com" }), webSiteSchema({ rootUrl: "https://example.com" })]}
       />
     </div>
   );
@@ -60,7 +60,7 @@ export default function MyPage() {
 | -------------------- | ------------------- | ---------------------------------- |
 | `personSchema`       | Person              | Person entity with creator profile |
 | `organizationSchema` | Organization        | Organization linked to creator     |
-| `websiteSchema`      | WebSite             | Website with search action         |
+| `webSiteSchema`      | WebSite             | Website with search action         |
 | `webpageSchema`      | WebPage             | General web page                   |
 | `aboutPageSchema`    | AboutPage           | About page                         |
 | `contactPageSchema`  | ContactPage         | Contact page                       |

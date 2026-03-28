@@ -147,7 +147,7 @@ The package provides the following schema types:
 | -------------------- | ------------------- |
 | `personSchema`       | Person              |
 | `organizationSchema` | Organization        |
-| `websiteSchema`      | WebSite             |
+| `webSiteSchema`      | WebSite             |
 | `webpageSchema`      | WebPage             |
 | `aboutPageSchema`    | AboutPage           |
 | `contactPageSchema`  | ContactPage         |
@@ -178,7 +178,7 @@ Renders a JSON-LD script tag with XSS protection.
 ```tsx
 import JsonLd from "@vijayhardaha/schema-builder/react";
 
-<JsonLd data={[personSchema(options), websiteSchema(options)]} />;
+<JsonLd data={[personSchema(options), webSiteSchema(options)]} />;
 ```
 
 ## Build Configuration

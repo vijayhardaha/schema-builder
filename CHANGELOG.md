@@ -39,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `personSchema` - Person entity with creator profile
 - `organizationSchema` - Organization linked to creator
-- `websiteSchema` - Website with search action
+- `webSiteSchema` - Website with search action
 - `webpageSchema` - General web page
 - `aboutPageSchema` - About page
 - `contactPageSchema` - Contact page
