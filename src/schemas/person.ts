@@ -33,7 +33,6 @@ export function personSchema(options: PersonOptions, overrides?: Partial<Person>
 
     // URLs / Presence
     url: rootUrl,
-    mainEntityOfPage: rootUrl,
     sameAs: Object.values(CREATOR.urls),
 
     // Media
