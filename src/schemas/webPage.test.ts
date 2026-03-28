@@ -36,6 +36,13 @@ describe('webPageSchema', () => {
       '@id': 'https://example.com/about#breadcrumb',
     });
   });
+
+  // it: should handle overrides without triggering delete
+  it('should handle valid overrides', () => {
+    const result = webPageSchema({ rootUrl: 'https://example.com', path: 'about' }, { name: 'Custom Page' });
+    // expect: override is applied
+    expect((result as unknown as Record<string, unknown>).name).toBe('Custom Page');
+  });
 });
 
 // describe: Tests for aboutPageSchema

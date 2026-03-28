@@ -79,4 +79,12 @@ describe('mergeWithType', () => {
     // expect: works fine without @type
     expect(result).toEqual({ name: 'John', url: 'https://example.com', description: 'A person' });
   });
+
+  // it: should handle cleanup of undefined values
+  it('should handle cleanup of undefined values', () => {
+    const schema = { name: 'John', description: 'A person' };
+    const result = mergeWithType(schema, undefined);
+    // expect: creates object with own properties
+    expect(Object.keys(result)).toContain('name');
+  });
 });
